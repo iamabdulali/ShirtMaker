@@ -693,7 +693,7 @@ document
     } else {
       try {
         const response = await fetch(
-          "http://localhost:4242/create-checkout-session",
+          "https://shirtmaker.onrender.com/create-checkout-session",
           {
             method: "POST",
             headers: {
