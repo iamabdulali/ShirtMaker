@@ -43,7 +43,7 @@ app.post("/create-checkout-session", async (req, res) => {
               description: "Awesome T-Shirt",
 
               images: [
-                "https://ca.frankandoak.com/cdn/shop/files/2120225-017_2400x.jpg?v=1692209329",
+                 imageSrc,
               ],
             },
             currency: "usd",
