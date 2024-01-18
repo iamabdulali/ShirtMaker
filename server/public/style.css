@@ -1,0 +1,443 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* display: flex; */
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f1f1f1;
+  overflow-y: hidden;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 30%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2em;
+  z-index: 999;
+}
+
+.file-container {
+  overflow-y: auto;
+}
+
+.sidebar button {
+  user-select: none;
+}
+
+button {
+  /* margin: 5px; */
+  padding: 10px 20px;
+  user-select: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e0e0e0;
+}
+
+canvas {
+  border: 2px dashed black;
+  cursor: default;
+}
+
+.image-preview-container button {
+  display: block;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+#preview {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.red-dot {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  cursor: grab;
+  display: none;
+  user-select: none;
+  transform: scaleX(-1);
+}
+
+.non-clickable {
+  user-select: none;
+  cursor: default;
+}
+
+.image-preview {
+  margin-right: 10px;
+}
+
+#fileName {
+  margin-left: 10px;
+}
+
+#image-preview-below-button {
+  height: 100px;
+  max-width: 100%;
+}
+
+i {
+  font-size: 35px;
+  cursor: pointer;
+  justify-content: center;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  /* Keeps padding and border inside the specified width */
+  font-size: 16px;
+}
+
+#colorPicker {
+  padding: 0;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 2em;
+}
+
+/* Style for when the input field is focused */
+input:focus {
+  outline: none;
+  /* Removes the default focus outline */
+  border-color: dodgerblue;
+  /* Changes border color on focus */
+  box-shadow: 0 0 5px dodgerblue;
+  /* Adds a shadow on focus */
+}
+
+.labels-div {
+  padding: 0 1em;
+  margin-top: 2em;
+}
+
+.labels-div label {
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.file-container {
+  width: 100%;
+}
+
+.text-container,
+.text-container-2 {
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 2em;
+}
+
+.image-icon-container,
+.text-preview-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ccc;
+  padding: 1em;
+  border: 2px solid #a3a3a3;
+  margin-bottom: 1em;
+  border-radius: 5px;
+}
+
+.text-preview-container p {
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.image-preview-container img {
+  min-width: 40px;
+  max-width: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  object-fit: cover;
+}
+
+.delete-icon {
+  font-size: 30px;
+}
+
+.buttons-div {
+  display: flex;
+  align-items: center;
+}
+
+.delete-icon {
+  margin-right: 1em;
+}
+
+.move-icon {
+  cursor: all-scroll;
+}
+
+#text-preview {
+  margin-bottom: 1em;
+  font-size: 1rem;
+  display: inline;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#textbox {
+  display: inline;
+  margin-bottom: 1em;
+}
+
+.opacity-less {
+  opacity: 0.7;
+}
+
+.button-div {
+  position: relative;
+  z-index: 9999999;
+  text-align: center;
+  top: 3em;
+  width: 1240px;
+}
+
+.fa-bars {
+  display: none;
+}
+
+.cross-icon {
+  display: none;
+}
+
+@media (max-width: 500px) {
+  body {
+    display: block;
+    padding: 1em;
+  }
+
+  .sidebar {
+    display: none;
+    max-height: 80vh;
+    overflow-y: scroll;
+    z-index: 9;
+  }
+
+  .fa-bars {
+    display: block;
+  }
+
+  .button-div {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    justify-content: center;
+    margin-top: 1em;
+    text-align: center;
+  }
+
+  .cross-icon {
+    display: block;
+    font-size: 1.5rem;
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+.canvas-div,
+.canvas-div-2 {
+  transform: translateX(-50%);
+  left: 55%;
+  width: 70%;
+  position: relative;
+  height: 100vh;
+  scale: 1.1;
+}
+
+.canvas-div img,
+.canvas-div-2 img {
+  position: absolute;
+  width: 700px;
+  height: 772px;
+  object-fit: cover;
+}
+
+.canvas-container {
+  transform: translate(-50%, -50%);
+  left: 352px;
+  top: 397px;
+  position: absolute !important;
+}
+
+.btn {
+  font-size: 1rem;
+  display: block;
+  width: 100%;
+}
+
+.custom-file-input-label {
+  width: 100%;
+}
+
+.mt {
+  margin-top: 1em;
+}
+
+.shirt-size-menu {
+  text-align: center;
+  max-height: 400px;
+  overflow-y: scroll;
+  display: none;
+}
+
+.shirt-size-menu h1 {
+  padding: 0.5em 0;
+}
+
+.size-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 0.5em 0;
+}
+
+.size-div input {
+  width: 60px;
+}
+
+.choose-size-div {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.select-shirt-color-div {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin: 1em 0;
+}
+
+.color-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: chocolate;
+  cursor: pointer;
+  color: #fff;
+}
+
+.color-div span {
+  display: none;
+}
+
+.color-div.active span {
+  display: block;
+}
+
+#White {
+  background-color: #f1f1f3;
+  color: #000;
+}
+#Black {
+  background-color: black;
+}
+#Charcoal {
+  background-color: #575459;
+}
+#Cornsilk {
+  background-color: #f2e988;
+  color: #000;
+}
+#Dark-Chocolate {
+  background-color: #382d29;
+}
+#DarkHeather {
+  background-color: #454547;
+}
+#Gold {
+  background-color: #fbb023;
+}
+#Heather-Indigo {
+  background-color: #667288;
+}
+#green {
+  background-color: #6ed399;
+}
+#Heather-Navy {
+  background-color: #4f515d;
+}
+#Heather-Red {
+  background-color: #d6505d;
+}
+#Heather-Royal {
+  background-color: #7785ce;
+}
+#Ice-Grey {
+  background-color: #cecccb;
+}
+#dark-green {
+  background-color: #1e8c45;
+}
+#Light-Blue {
+  background-color: #ccddef;
+}
+#Military-Green {
+  background-color: #575a3f;
+}
+#Natural {
+  background-color: #faf1de;
+  color: #000;
+}
+#Navy {
+  background-color: #282d40;
+}
+#Orange {
+  background-color: #e3592a;
+}
+#Red {
+  background-color: #c03137;
+}
+#Royal {
+  background-color: #1c4d92;
+}
+#Sand {
+  background-color: #d4c9b7;
+}
+#Sapphire {
+  background-color: #1877af;
+}
+#Sport-Grey {
+  background-color: #afafb1;
+}
+#Tropical-Blue {
+  background-color: #188fa3;
+}
