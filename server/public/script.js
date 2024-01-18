@@ -700,7 +700,7 @@ document
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              imageSrc: imageUrl,
+              imageSrc: selectedImageSrc,
               sizes: selectedSizes,
               color: shirtColor,
             }),
