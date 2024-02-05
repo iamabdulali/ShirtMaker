@@ -1,4 +1,4 @@
-alert("Please Don't talk anything about this on fiverr, here is my email abdulqayyum354@gmail.com, we can talk on some other plateform, just message me on this")
+
 const canvas = new fabric.Canvas("canvas", {
   preserveObjectStacking: true,
 });
