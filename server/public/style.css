@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: #f1f1f1;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -53,6 +53,8 @@ button:hover {
 
 canvas {
   border: 2px dashed black;
+  width: 290px !important;
+  height: 332px !important;
   cursor: default;
 }
 
@@ -287,9 +289,9 @@ img {
 }
 
 .canvas-container {
-  transform: translate(-50%, -50%);
-  left: 352px;
-  top: 397px;
+  /* transform: translate(-50%, -50%); */
+  left: 207px;
+  top: 232px;
   position: absolute !important;
 }
 

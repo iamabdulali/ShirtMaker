@@ -1,4 +1,10 @@
-
+fabric.Object.prototype.set({
+  cornerBackground: "red",
+  // cornerSize: 200,
+  // cornerStrokeWidth: 200, // Width of the stroke around the controls
+  transparentCorners: false,
+  selectable: true,
+});
 const canvas = new fabric.Canvas("canvas", {
   preserveObjectStacking: true,
 });
@@ -12,17 +18,17 @@ const exportCanvas = new fabric.Canvas("exportCanvas", {
 let selectedObject = null;
 let currentImageUrl = null; // variable to store the URL of the current image
 
-if (window.innerWidth <= 500) {
-  canvas.setWidth(200);
-  canvas.setHeight(400);
-  canvas2.setWidth(200);
-  canvas2.setHeight(400);
-} else {
-  canvas.setWidth(290);
-  canvas.setHeight(332);
-  canvas2.setWidth(288);
-  canvas2.setHeight(332);
-}
+// if (window.innerWidth <= 500) {
+//   canvas.setWidth(200);
+//   canvas.setHeight(400);
+//   canvas2.setWidth(200);
+//   canvas2.setHeight(400);
+// } else {
+//   canvas.setWidth(290);
+//   canvas.setHeight(332);
+//   canvas2.setWidth(288);
+//   canvas2.setHeight(332);
+// }
 
 $(".fa-bars").click(function (params) {
   $("#sidebar-canvas-one").toggle();
@@ -41,14 +47,21 @@ function inputChange(selector, canvas, container) {
     imgNode.src = currentImageUrl;
     imgNode.onload = () => {
       const img = new fabric.Image(imgNode, {
-        left: 0,
-        top: 30,
         angle: 0,
         opacity: 1,
       });
-      const MAX_SIZE = 500;
+      const MAX_SIZE = 200;
       const scaleFactor = Math.min(MAX_SIZE / img.width, MAX_SIZE / img.height);
-      img.scale(scaleFactor);
+      const scaledWidth = img.width * scaleFactor;
+      const scaledHeight = img.height * scaleFactor;
+      console.log(scaledWidth);
+
+      img.set({
+        left: 0,
+        top: 0,
+        width: scaledWidth,
+        height: scaledHeight,
+      });
 
       // Set the clipTo function to clip the image to the visible part of the canvas
       img.clipTo = function (ctx) {
@@ -645,7 +658,7 @@ $("#addTextBtn").click(function (params) {
   $(".text-preview-container").show();
 });
 
-$("#canvas2").parent().css({ top: "366px", left: "353px" });
+$("#canvas2").parent().css({ top: "200px", left: "210px" });
 
 // script.js
 
@@ -673,6 +686,7 @@ document
 
     // Create a URL for the Blob
     var imageUrl = URL.createObjectURL(blob);
+    console.log(imageUrl);
 
     // Now 'imageUrl' contains the URL representing the image
 
@@ -694,7 +708,7 @@ document
     } else {
       try {
         const response = await fetch(
-          "https://shirtmaker.onrender.com/create-checkout-session",
+          "http://localhost:4242/create-checkout-session",
           {
             method: "POST",
             headers: {
@@ -719,98 +733,108 @@ document
     }
   });
 
-// document.querySelector("#download").addEventListener("click", async () => {
-//   const tshirtImageUrl = document.getElementById("shirt-image").src;
+document.querySelector("#download").addEventListener("click", async () => {
+  const tshirtImageUrl = document.getElementById("shirt-image").src;
 
-//   // Load the T-shirt image asynchronously
-//   const tshirtImage = await loadImageAsync(tshirtImageUrl);
+  // Load the T-shirt image asynchronously
+  const tshirtImage = await loadImageAsync(tshirtImageUrl);
 
-//   // Create a new Fabric.js canvas for exporting
-//   const exportCanvas = new fabric.Canvas("exportCanvas", {
-//     renderOnAddRemove: true,
-//   });
+  // Create a new Fabric.js canvas for exporting
+  const exportCanvas = new fabric.Canvas("exportCanvas", {
+    renderOnAddRemove: true,
+  });
 
-//   // Set the size of the export canvas based on the T-shirt image dimensions
-//   exportCanvas.setDimensions({
-//     width: tshirtImage.width,
-//     height: tshirtImage.height,
-//   });
+  // Set the size of the export canvas based on the T-shirt image dimensions
+  exportCanvas.setDimensions({
+    width: 4500,
+    height: 5100,
+  });
 
-//   // Add T-shirt image as a background
-//   const backgroundImage = new fabric.Image(tshirtImage, {
-//     left: 0,
-//     top: 0,
-//     width: tshirtImage.width,
-//     height: tshirtImage.height,
-//   });
-//   exportCanvas.setBackgroundImage(
-//     backgroundImage,
-//     exportCanvas.renderAll.bind(exportCanvas)
-//   );
+  // Calculate the center position for the T-shirt image
+  const centerX = exportCanvas.width / 2;
+  const centerY = exportCanvas.height / 2;
 
-//   // Calculate crop dimensions based on canvas size
-//   const canvasWidth = 290;
-//   const canvasHeight = 332;
+  // Calculate the position for the T-shirt image based on its dimensions
+  const imageLeft = centerX - tshirtImage.width / 2;
+  const imageTop = centerY - tshirtImage.height / 2;
 
-//   const cropLeft = Math.max(0, (tshirtImage.width - canvasWidth) / 2);
-//   const cropTop = Math.max(0, (tshirtImage.height - canvasHeight) / 2);
-//   const cropWidth = Math.min(tshirtImage.width, canvasWidth);
-//   const cropHeight = Math.min(tshirtImage.height, canvasHeight);
+  // Add T-shirt image as a background
+  const backgroundImage = new fabric.Image(tshirtImage, {
+    left: imageLeft,
+    top: imageTop,
+    width: tshirtImage.width,
+    height: tshirtImage.height,
+  });
 
-//   // Add Fabric.js objects to the export canvas
-//   canvas.getObjects().forEach((obj) => {
-//     if (obj.type === "image") {
-//       const clonedImage = new fabric.Image(
-//         obj._originalElement,
-//         obj.toObject()
-//       );
+  exportCanvas.setBackgroundImage(
+    backgroundImage,
+    exportCanvas.renderAll.bind(exportCanvas)
+  );
 
-//       // Set the clipTo function to clip the cloned image to the calculated crop dimensions
-//       clonedImage.clipTo = function (ctx) {
-//         ctx.rect(cropLeft, cropTop, cropWidth, cropHeight);
-//       };
+  // Add Fabric.js objects to the export canvas
+  canvas.getObjects().forEach((obj) => {
+    if (obj.type === "image") {
+      const clonedImage = new fabric.Image(
+        obj._originalElement,
+        obj.toObject()
+      );
 
-//       // Adjust the position of the cloned image based on its current position on the canvas
-//       clonedImage.set({
-//         left: obj.left + (tshirtImage.width - canvasWidth) / 2,
-//         top: obj.top + (tshirtImage.height - canvasHeight) / 2,
-//       });
-//       exportCanvas.add(clonedImage);
-//     } else if (obj.type === "i-text") {
-//       const clonedText = new fabric.IText(obj.text, obj.toObject());
-//       // Adjust the position of the cloned text based on its current position on the canvas
-//       clonedText.set({
-//         left: obj.left + (tshirtImage.width - canvasWidth) / 2,
-//         top: obj.top + (tshirtImage.height - canvasHeight) / 2,
-//       });
-//       exportCanvas.add(clonedText);
-//     }
-//     // Add additional checks for other types of objects as needed
-//   });
+      clonedImage.scaleX *= 1.7; // Adjust the scale factor according to your needs
+      clonedImage.scaleY *= 1.7;
 
-//   // Ensure that the canvas is fully rendered
-//   exportCanvas.renderAll();
+      // Adjust the position of the cloned image based on its current position on the canvas
+      clonedImage.set({
+        left: obj.left + 650,
+        top: obj.top + 620,
+      });
 
-//   // Get the combined image data URL
-//   const dataURL = exportCanvas.toDataURL("image/png");
+      exportCanvas.add(clonedImage);
+    } else if (obj.type === "i-text") {
+      const clonedText = new fabric.IText(obj.text, obj.toObject());
+      // Adjust the position of the cloned text based on its current position on the canvas
+      clonedText.set({
+        left: obj.left + (tshirtImage.width - 319) / 2,
+        top: obj.top + (tshirtImage.height - 365) / 2,
+      });
+      exportCanvas.add(clonedText);
+    }
+    // Add additional checks for other types of objects as needed
+  });
 
-//   // Create a download link and trigger the download
-//   const a = document.createElement("a");
-//   a.download = "combined_image.png";
-//   a.href = dataURL;
-//   a.click();
-// });
+  // Ensure that the canvas is fully rendered
+  exportCanvas.renderAll();
+
+  var croppedDataUrl = canvas.toDataURL("image/png");
+
+  // Display or use the cropped image
+  var croppedImage = new Image();
+  croppedImage.src = croppedDataUrl;
+  // document.body.appendChild(croppedImage);
+
+  // Get the combined image data URL
+  const dataURL = exportCanvas.toDataURL("image/png");
+
+  // Create a download link and trigger the download
+  const a = document.createElement("a");
+  const a2 = document.createElement("a");
+  a.download = "combined_image.png";
+  a2.download = "combined_image2.png";
+  a.href = croppedDataUrl;
+  a2.href = dataURL;
+  a.click();
+  a2.click();
+});
 
 // // Function to load an image asynchronously
-// function loadImageAsync(url) {
-//   return new Promise((resolve, reject) => {
-//     const img = new Image();
-//     img.crossOrigin = "anonymous"; // Enable cross-origin access, important for some image URLs
-//     img.onload = () => resolve(img);
-//     img.onerror = reject;
-//     img.src = url;
-//   });
-// }
+function loadImageAsync(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Enable cross-origin access, important for some image URLs
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = url;
+  });
+}
 
 // Handle button clicks
 $(".change-size").on("click", function () {
@@ -828,38 +852,3 @@ $(".change-size").on("click", function () {
 
   sizeInput.val(newSize);
 });
-
-function getDimensions() {
-  // Get the input element
-  const input = document.getElementById("imageInput");
-
-  // Check if any file is selected
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-
-    // Read the image file
-    reader.onload = function (e) {
-      // Create an image element
-      const img = new Image();
-
-      // Set the source of the image to the selected file
-      img.src = e.target.result;
-
-      // Wait for the image to load
-      img.onload = function () {
-        // Get the dimensions of the image
-        const width = img.width;
-        const height = img.height;
-
-        const dpi = (2250 / 4500) * (2550 / 5100) * 300;
-        console.log(dpi);
-
-        // Display the dimensions
-        alert(`Image Dimensions: ${width} x ${height} pixels`);
-      };
-    };
-
-    // Read the selected file as a data URL
-    reader.readAsDataURL(input.files[0]);
-  }
-}
