@@ -1,7 +1,7 @@
 fabric.Object.prototype.set({
   cornerBackground: "red",
-  // cornerSize: 200,
-  // cornerStrokeWidth: 200, // Width of the stroke around the controls
+  cornerSize: 200,
+  cornerStrokeWidth: 200, // Width of the stroke around the controls
   transparentCorners: false,
   selectable: true,
 });
@@ -50,23 +50,22 @@ function inputChange(selector, canvas, container) {
         angle: 0,
         opacity: 1,
       });
-      const MAX_SIZE = 200;
+      const MAX_SIZE = 2000;
       const scaleFactor = Math.min(MAX_SIZE / img.width, MAX_SIZE / img.height);
       const scaledWidth = img.width * scaleFactor;
       const scaledHeight = img.height * scaleFactor;
-      console.log(scaledWidth);
 
       img.set({
-        left: 0,
-        top: 0,
+        left: canvas.width / 2 - scaledWidth / 2,
+        top: canvas.height / 2 - scaledHeight / 2,
         width: scaledWidth,
         height: scaledHeight,
       });
 
       // Set the clipTo function to clip the image to the visible part of the canvas
-      img.clipTo = function (ctx) {
-        ctx.rect(0, 0, canvas.width, canvas.height);
-      };
+      // img.clipTo = function (ctx) {
+      //   ctx.rect(0, 0, canvas.width, canvas.height);
+      // };
       canvas.add(img);
       createImagePreview(currentImageUrl, img, canvas, container);
       input.value = ""; // Clear the input field
@@ -822,7 +821,7 @@ document.querySelector("#download").addEventListener("click", async () => {
   a.href = croppedDataUrl;
   a2.href = dataURL;
   a.click();
-  a2.click();
+  // a2.click();
 });
 
 // // Function to load an image asynchronously
