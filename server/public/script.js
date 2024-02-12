@@ -647,69 +647,68 @@ function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-document
-  .getElementById("cart-btn")
-  .addEventListener("click", async function () {
-    const selectedImageSrc = document.getElementById("shirt-image").src;
-    var shirtColor = $(".color-div.active").attr("id");
+const cartBtn = document.getElementById("cart-btn");
 
-    // Collect the selected sizes and quantities
-    var selectedSizes = {};
-    $(".size-div").each(function () {
-      var size = $(this).find("p").text().trim();
-      var quantity = parseInt($(this).find(".size").val());
+cartBtn.addEventListener("click", async function () {
+  cartBtn.style.opacity = "0.7";
+  const selectedImageSrc = document.getElementById("shirt-image").src;
+  var shirtColor = $(".color-div.active").attr("id");
 
-      // Only include sizes with a quantity greater than 0
-      if (quantity > 0) {
-        selectedSizes[size] = quantity;
-      }
-    });
+  // Collect the selected sizes and quantities
+  var selectedSizes = {};
+  $(".size-div").each(function () {
+    var size = $(this).find("p").text().trim();
+    var quantity = parseInt($(this).find(".size").val());
 
-    if (isObjectEmpty(selectedSizes)) {
-      alert("Select Size!");
-      return;
-    } else {
-      try {
-        // Upload image and wait for completion
-        await uploadImage();
-
-        const response = await fetch(
-          "http://localhost:4242/create-checkout-session",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              imageSrc: selectedImageSrc,
-              sizes: selectedSizes,
-              color: shirtColor,
-              // croppedDataUrl: base64String,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to create checkout session");
-        }
-
-        const session = await response.json();
-        console.log(session);
-
-        // Redirect to the Stripe Checkout page
-        window.location.href = session.url;
-      } catch (error) {
-        console.error("Error processing checkout:", error);
-        // Handle error, e.g., display an error message to the user
-      }
+    // Only include sizes with a quantity greater than 0
+    if (quantity > 0) {
+      selectedSizes[size] = quantity;
     }
   });
 
+  if (isObjectEmpty(selectedSizes)) {
+    alert("Select Size!");
+    return;
+  } else {
+    try {
+      // Upload image and wait for completion
+      await uploadImage();
+      cartBtn.style.opacity = "1";
+
+      const response = await fetch(
+        "http://localhost:4242/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageSrc: selectedImageSrc,
+            sizes: selectedSizes,
+            color: shirtColor,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create checkout session");
+      }
+
+      const session = await response.json();
+      console.log(session);
+
+      // Redirect to the Stripe Checkout page
+      window.location.href = session.url;
+    } catch (error) {
+      cartBtn.style.opacity = "1";
+      console.error("Error processing checkout:", error);
+      // Handle error, e.g., display an error message to the user
+    }
+  }
+});
+
 async function uploadImage() {
   var croppedDataUrl = canvas.toDataURL("image/png");
-
-  document.querySelector("#upload-image").style.opacity = "0.7";
-
   try {
     // Send the cropped image data to backend and wait for completion
     const response = await fetch("http://localhost:4242/upload", {
@@ -723,14 +722,8 @@ async function uploadImage() {
     if (!response.ok) {
       throw new Error("Failed to upload image");
     }
-
-    const data = await response.json();
-    console.log(data);
-    document.querySelector("#upload-image").style.opacity = "1";
   } catch (error) {
     console.error("Error uploading image:", error);
-    // Handle error, e.g., display an error message to the user
-    document.querySelector("#upload-image").style.opacity = "1";
   }
 }
 
