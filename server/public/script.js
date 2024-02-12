@@ -18,18 +18,6 @@ const exportCanvas = new fabric.Canvas("exportCanvas", {
 let selectedObject = null;
 let currentImageUrl = null; // variable to store the URL of the current image
 
-// if (window.innerWidth <= 500) {
-//   canvas.setWidth(200);
-//   canvas.setHeight(400);
-//   canvas2.setWidth(200);
-//   canvas2.setHeight(400);
-// } else {
-//   canvas.setWidth(290);
-//   canvas.setHeight(332);
-//   canvas2.setWidth(288);
-//   canvas2.setHeight(332);
-// }
-
 $(".fa-bars").click(function (params) {
   $("#sidebar-canvas-one").toggle();
   $("#sidebar-canvas-one").css("width", "100%");
@@ -58,14 +46,8 @@ function inputChange(selector, canvas, container) {
       img.set({
         left: canvas.width / 2 - scaledWidth / 2,
         top: canvas.height / 2 - scaledHeight / 2,
-        width: scaledWidth,
-        height: scaledHeight,
       });
 
-      // Set the clipTo function to clip the image to the visible part of the canvas
-      // img.clipTo = function (ctx) {
-      //   ctx.rect(0, 0, canvas.width, canvas.height);
-      // };
       canvas.add(img);
       createImagePreview(currentImageUrl, img, canvas, container);
       input.value = ""; // Clear the input field
@@ -670,24 +652,6 @@ document
   .addEventListener("click", async function () {
     const selectedImageSrc = document.getElementById("shirt-image").src;
     var shirtColor = $(".color-div.active").attr("id");
-    // console.log(canvas.toDataURL("image/png"));
-
-    const base64String = canvas.toDataURL("image/png");
-
-    // Convert the base64 string to a Blob
-    var byteCharacters = atob(base64String.split(",")[1]);
-    var byteNumbers = new Array(byteCharacters.length);
-    for (var i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    var byteArray = new Uint8Array(byteNumbers);
-    var blob = new Blob([byteArray], { type: "image/png" });
-
-    // Create a URL for the Blob
-    var imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
-
-    // Now 'imageUrl' contains the URL representing the image
 
     // Collect the selected sizes and quantities
     var selectedSizes = {};
@@ -706,6 +670,9 @@ document
       return;
     } else {
       try {
+        // Upload image and wait for completion
+        await uploadImage();
+
         const response = await fetch(
           "http://localhost:4242/create-checkout-session",
           {
@@ -717,9 +684,14 @@ document
               imageSrc: selectedImageSrc,
               sizes: selectedSizes,
               color: shirtColor,
+              // croppedDataUrl: base64String,
             }),
           }
         );
+
+        if (!response.ok) {
+          throw new Error("Failed to create checkout session");
+        }
 
         const session = await response.json();
         console.log(session);
@@ -727,112 +699,39 @@ document
         // Redirect to the Stripe Checkout page
         window.location.href = session.url;
       } catch (error) {
-        console.error("Error creating checkout session:", error);
+        console.error("Error processing checkout:", error);
+        // Handle error, e.g., display an error message to the user
       }
     }
   });
 
-document.querySelector("#download").addEventListener("click", async () => {
-  const tshirtImageUrl = document.getElementById("shirt-image").src;
-
-  // Load the T-shirt image asynchronously
-  const tshirtImage = await loadImageAsync(tshirtImageUrl);
-
-  // Create a new Fabric.js canvas for exporting
-  const exportCanvas = new fabric.Canvas("exportCanvas", {
-    renderOnAddRemove: true,
-  });
-
-  // Set the size of the export canvas based on the T-shirt image dimensions
-  exportCanvas.setDimensions({
-    width: 4500,
-    height: 5100,
-  });
-
-  // Calculate the center position for the T-shirt image
-  const centerX = exportCanvas.width / 2;
-  const centerY = exportCanvas.height / 2;
-
-  // Calculate the position for the T-shirt image based on its dimensions
-  const imageLeft = centerX - tshirtImage.width / 2;
-  const imageTop = centerY - tshirtImage.height / 2;
-
-  // Add T-shirt image as a background
-  const backgroundImage = new fabric.Image(tshirtImage, {
-    left: imageLeft,
-    top: imageTop,
-    width: tshirtImage.width,
-    height: tshirtImage.height,
-  });
-
-  exportCanvas.setBackgroundImage(
-    backgroundImage,
-    exportCanvas.renderAll.bind(exportCanvas)
-  );
-
-  // Add Fabric.js objects to the export canvas
-  canvas.getObjects().forEach((obj) => {
-    if (obj.type === "image") {
-      const clonedImage = new fabric.Image(
-        obj._originalElement,
-        obj.toObject()
-      );
-
-      clonedImage.scaleX *= 1.7; // Adjust the scale factor according to your needs
-      clonedImage.scaleY *= 1.7;
-
-      // Adjust the position of the cloned image based on its current position on the canvas
-      clonedImage.set({
-        left: obj.left + 650,
-        top: obj.top + 620,
-      });
-
-      exportCanvas.add(clonedImage);
-    } else if (obj.type === "i-text") {
-      const clonedText = new fabric.IText(obj.text, obj.toObject());
-      // Adjust the position of the cloned text based on its current position on the canvas
-      clonedText.set({
-        left: obj.left + (tshirtImage.width - 319) / 2,
-        top: obj.top + (tshirtImage.height - 365) / 2,
-      });
-      exportCanvas.add(clonedText);
-    }
-    // Add additional checks for other types of objects as needed
-  });
-
-  // Ensure that the canvas is fully rendered
-  exportCanvas.renderAll();
-
+async function uploadImage() {
   var croppedDataUrl = canvas.toDataURL("image/png");
 
-  // Display or use the cropped image
-  var croppedImage = new Image();
-  croppedImage.src = croppedDataUrl;
-  // document.body.appendChild(croppedImage);
+  document.querySelector("#upload-image").style.opacity = "0.7";
 
-  // Get the combined image data URL
-  const dataURL = exportCanvas.toDataURL("image/png");
+  try {
+    // Send the cropped image data to backend and wait for completion
+    const response = await fetch("http://localhost:4242/upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ image: croppedDataUrl }),
+    });
 
-  // Create a download link and trigger the download
-  const a = document.createElement("a");
-  const a2 = document.createElement("a");
-  a.download = "combined_image.png";
-  a2.download = "combined_image2.png";
-  a.href = croppedDataUrl;
-  a2.href = dataURL;
-  a.click();
-  // a2.click();
-});
+    if (!response.ok) {
+      throw new Error("Failed to upload image");
+    }
 
-// // Function to load an image asynchronously
-function loadImageAsync(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous"; // Enable cross-origin access, important for some image URLs
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = url;
-  });
+    const data = await response.json();
+    console.log(data);
+    document.querySelector("#upload-image").style.opacity = "1";
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    // Handle error, e.g., display an error message to the user
+    document.querySelector("#upload-image").style.opacity = "1";
+  }
 }
 
 // Handle button clicks
