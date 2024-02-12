@@ -17,7 +17,7 @@ let secureUrl = "";
 
 app.use(express.json({ limit: "50mb" }));
 
-const YOUR_DOMAIN = "http://localhost:4242";
+const YOUR_DOMAIN = "https://shirtmaker.onrender.com";
 
 const cloudinary = require("cloudinary").v2;
 

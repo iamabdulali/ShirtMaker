@@ -676,7 +676,7 @@ cartBtn.addEventListener("click", async function () {
       cartBtn.style.opacity = "1";
 
       const response = await fetch(
-        "http://localhost:4242/create-checkout-session",
+        "https://shirtmaker.onrender.com/create-checkout-session",
         {
           method: "POST",
           headers: {
@@ -711,7 +711,7 @@ async function uploadImage() {
   var croppedDataUrl = canvas.toDataURL("image/png");
   try {
     // Send the cropped image data to backend and wait for completion
-    const response = await fetch("http://localhost:4242/upload", {
+    const response = await fetch("https://shirtmaker.onrender.com/upload", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
