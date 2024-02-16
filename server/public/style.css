@@ -234,38 +234,6 @@ input:focus {
   display: none;
 }
 
-@media (max-width: 500px) {
-  body {
-    display: block;
-    padding: 1em;
-  }
-
-  .sidebar {
-    display: none;
-    max-height: 80vh;
-    overflow-y: scroll;
-    z-index: 9;
-  }
-
-  .fa-bars {
-    display: block;
-  }
-
-  .button-div {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    justify-content: center;
-    margin-top: 1em;
-    text-align: center;
-  }
-
-  .cross-icon {
-    display: block;
-    font-size: 1.5rem;
-  }
-}
-
 img {
   max-width: 100%;
 }
@@ -442,4 +410,124 @@ img {
 }
 #Tropical-Blue {
   background-color: #188fa3;
+}
+
+.shirt-size-menu {
+  background-color: white;
+}
+
+@media (max-width: 1250px) {
+  .canvas-div,
+  .canvas-div-2 {
+    position: static;
+    transform: unset;
+  }
+}
+
+@media (max-width: 1050px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: white;
+  }
+
+  .canvas-container {
+    left: 221px;
+    top: 119px;
+  }
+
+  .canvas-div {
+    margin: 0 auto;
+    width: 786px;
+    height: auto;
+    scale: 1;
+  }
+
+  .button-div {
+    width: 100%;
+  }
+
+  .sidebar {
+    position: absolute;
+    width: 100%;
+    top: unset;
+    bottom: 0;
+    height: auto;
+    background: transparent;
+  }
+
+  .shirt-modification-div {
+    display: flex;
+    gap: 1em;
+  }
+
+  canvas {
+    width: 263px !important;
+    height: 302px !important;
+  }
+
+  .canvas-div img,
+  .canvas-div-2 img {
+    height: 517px;
+  }
+
+  .file-container,
+  .text-container,
+  #text-preview {
+    display: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .canvas-div {
+    width: 500px;
+  }
+  canvas {
+    width: 196px !important;
+    height: 223px !important;
+  }
+
+  .canvas-container {
+    left: 154px;
+    top: 155px;
+  }
+}
+
+@media (max-width: 500px) {
+  .canvas-div {
+    width: 380px;
+  }
+  canvas {
+    width: 196px !important;
+    height: 223px !important;
+  }
+
+  .canvas-container {
+    left: 94px;
+    top: 155px;
+  }
+}
+
+@media (max-width: 400px) {
+  .canvas-div {
+    width: 340px;
+  }
+  canvas {
+    width: 196px !important;
+    height: 223px !important;
+  }
+
+  .canvas-container {
+    left: 74px;
+    top: 155px;
+  }
+
+  .sidebar {
+    padding: 0 1em;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
 }
