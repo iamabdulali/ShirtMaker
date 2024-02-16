@@ -426,8 +426,7 @@ img {
 
 @media (max-width: 1050px) {
   body {
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: white;
   }
 
