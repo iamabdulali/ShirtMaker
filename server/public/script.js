@@ -49,6 +49,7 @@ function inputChange(selector, canvas, container) {
       });
 
       canvas.add(img);
+      alert("image uploaded");
       createImagePreview(currentImageUrl, img, canvas, container);
       input.value = ""; // Clear the input field
     };
