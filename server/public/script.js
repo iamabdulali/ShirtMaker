@@ -5,18 +5,6 @@ fabric.Object.prototype.set({
   transparentCorners: false,
   selectable: true,
 });
-// Enable touch events for Fabric.js canvases
-fabric.Canvas.prototype._onTouchStart = function (e) {
-  this.__onMouseDown(e);
-};
-
-fabric.Canvas.prototype._onTouchEnd = function (e) {
-  this.__onMouseUp(e);
-};
-
-fabric.Canvas.prototype._onTouchMove = function (e) {
-  this.__onMouseMove(e);
-};
 
 const canvas = new fabric.Canvas("canvas", {
   preserveObjectStacking: true,
