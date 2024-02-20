@@ -1,8 +1,8 @@
 fabric.Object.prototype.set({
   cornerBackground: "red",
-  cornerSize: 100,
-  cornerStrokeWidth: 100, // Width of the stroke around the controls
-  transparentCorners: true,
+  cornerSize: 200,
+  cornerStrokeWidth: 200, // Width of the stroke around the controls
+  transparentCorners: false,
   selectable: true,
 });
 
@@ -53,7 +53,6 @@ function inputChange(selector, canvas, container) {
       });
 
       canvas.add(img);
-      alert("image uploaded");
       createImagePreview(currentImageUrl, img, canvas, container);
       input.value = ""; // Clear the input field
     };
