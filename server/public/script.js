@@ -1,10 +1,10 @@
-// fabric.Object.prototype.set({
-//   cornerBackground: "red",
-//   cornerSize: 200,
-//   cornerStrokeWidth: 200, // Width of the stroke around the controls
-//   transparentCorners: false,
-//   selectable: true,
-// });
+fabric.Object.prototype.set({
+  cornerBackground: "red",
+  cornerSize: 100,
+  cornerStrokeWidth: 100, // Width of the stroke around the controls
+  transparentCorners: true,
+  selectable: true,
+});
 
 const canvas = new fabric.Canvas("canvas", {
   preserveObjectStacking: true,
