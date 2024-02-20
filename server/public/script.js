@@ -31,6 +31,35 @@ $(".cross-icon").click(function (params) {
   $("#sidebar-canvas-one").hide();
 });
 
+// function inputChange(selector, canvas, container) {
+//   document.querySelector(selector).addEventListener("change", (event) => {
+//     const file = event.target.files[0];
+//     currentImageUrl = URL.createObjectURL(file); // update the current image URL
+//     const imgNode = new Image();
+//     imgNode.src = currentImageUrl;
+//     imgNode.onload = () => {
+//       const img = new fabric.Image(imgNode, {
+//         angle: 0,
+//         opacity: 1,
+//       });
+//       const MAX_SIZE = 500;
+//       const scaleFactor = Math.min(MAX_SIZE / img.width, MAX_SIZE / img.height);
+//       const scaledWidth = img.width * scaleFactor;
+//       const scaledHeight = img.height * scaleFactor;
+
+//       img.set({
+//         left: canvas.width / 2 - scaledWidth / 2,
+//         top: canvas.height / 2 - scaledHeight / 2,
+//       });
+
+//       canvas.add(img);
+//       alert("image uploaded");
+//       createImagePreview(currentImageUrl, img, canvas, container);
+//       input.value = ""; // Clear the input field
+//     };
+//   });
+// }
+
 function inputChange(selector, canvas, container) {
   document.querySelector(selector).addEventListener("change", (event) => {
     const file = event.target.files[0];
@@ -39,21 +68,15 @@ function inputChange(selector, canvas, container) {
     imgNode.src = currentImageUrl;
     imgNode.onload = () => {
       const img = new fabric.Image(imgNode, {
+        left: 100,
+        top: 100,
         angle: 0,
         opacity: 1,
       });
       const MAX_SIZE = 500;
       const scaleFactor = Math.min(MAX_SIZE / img.width, MAX_SIZE / img.height);
-      const scaledWidth = img.width * scaleFactor;
-      const scaledHeight = img.height * scaleFactor;
-
-      img.set({
-        left: canvas.width / 2 - scaledWidth / 2,
-        top: canvas.height / 2 - scaledHeight / 2,
-      });
-
+      img.scale(scaleFactor);
       canvas.add(img);
-      alert("image uploaded");
       createImagePreview(currentImageUrl, img, canvas, container);
       input.value = ""; // Clear the input field
     };
