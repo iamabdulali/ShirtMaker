@@ -42,7 +42,7 @@ function inputChange(selector, canvas, container) {
         angle: 0,
         opacity: 1,
       });
-      const MAX_SIZE = 2000;
+      const MAX_SIZE = 500;
       const scaleFactor = Math.min(MAX_SIZE / img.width, MAX_SIZE / img.height);
       const scaledWidth = img.width * scaleFactor;
       const scaledHeight = img.height * scaleFactor;
