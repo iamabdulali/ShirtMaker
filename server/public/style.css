@@ -525,12 +525,12 @@ img {
     top: 155px;
   }
 
-  .button-div {
+  /* .button-div {
     bottom: 210px;
     top: unset;
     z-index: 1;
     position: absolute;
-  }
+  } */
 
   .select-shirt-color-div {
     position: absolute;
