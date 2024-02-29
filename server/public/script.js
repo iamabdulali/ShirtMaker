@@ -5,22 +5,37 @@ fabric.Object.prototype.set({
   transparentCorners: false,
   selectable: true,
 });
-
 const canvas = new fabric.Canvas("canvas", {
   preserveObjectStacking: true,
-  enableRetinaScaling: false,
 });
 const canvas2 = new fabric.Canvas("canvas2", {
   preserveObjectStacking: true,
-  enableRetinaScaling: false,
 });
 const exportCanvas = new fabric.Canvas("exportCanvas", {
   preserveObjectStacking: true,
-  enableRetinaScaling: false,
 });
 
 let selectedObject = null;
 let currentImageUrl = null; // variable to store the URL of the current image
+let SIZE;
+
+if (window.innerWidth <= 500) {
+  canvas.setWidth(700);
+  canvas.setHeight(700);
+  canvas2.setWidth(700);
+  canvas2.setHeight(700);
+
+  fabric.Object.prototype.set({
+    cornerBackground: "red",
+    cornerSize: 30,
+    cornerStrokeWidth: 10, // Width of the stroke around the controls
+    transparentCorners: false,
+    selectable: true,
+  });
+  SIZE = 600;
+} else {
+  SIZE = 2000;
+}
 
 $(".fa-bars").click(function (params) {
   $("#sidebar-canvas-one").toggle();
@@ -42,7 +57,7 @@ function inputChange(selector, canvas, container) {
         angle: 0,
         opacity: 1,
       });
-      const MAX_SIZE = 2000;
+      const MAX_SIZE = SIZE;
       const scaleFactor = Math.min(MAX_SIZE / img.width, MAX_SIZE / img.height);
       const scaledWidth = img.width * scaleFactor;
       const scaledHeight = img.height * scaleFactor;
@@ -50,8 +65,24 @@ function inputChange(selector, canvas, container) {
       img.set({
         left: canvas.width / 2 - scaledWidth / 2,
         top: canvas.height / 2 - scaledHeight / 2,
+        // width: SIZE,
+        // height: SIZE,
       });
 
+      if (window.innerWidth <= 500) {
+        img.set({
+          left: canvas.width / 2 - scaledWidth / 2,
+          top: canvas.height / 2 - scaledHeight / 2,
+        });
+
+        img.scaleToHeight(600);
+        img.scaleToWidth(600);
+      }
+
+      // Set the clipTo function to clip the image to the visible part of the canvas
+      // img.clipTo = function (ctx) {
+      //   ctx.rect(0, 0, canvas.width, canvas.height);
+      // };
       canvas.add(img);
       createImagePreview(currentImageUrl, img, canvas, container);
       input.value = ""; // Clear the input field
@@ -213,6 +244,14 @@ canvas2.on("mouse:down", (event) => {
   }
 });
 
+let fontSize;
+
+if (window.innerWidth <= 500) {
+  fontSize = 65;
+} else {
+  fontSize = 250;
+}
+
 function addText(textbox, canvas, container) {
   document.querySelector(textbox).addEventListener("click", () => {
     const text = new fabric.IText("Edit your text", {
@@ -221,7 +260,7 @@ function addText(textbox, canvas, container) {
       width: 200, // Set a specific width for the text box
       height: 100, // Set a specific height for the text box
       fontFamily: "Arial",
-      fontSize: 20,
+      fontSize: fontSize,
       fill: "black",
       fontWeight: "normal",
       fontStyle: "normal",
@@ -471,7 +510,7 @@ function createTextPreview(activeObject, container) {
   textPreviewContainer.id = `fabric_${activeObject.fabricID}`;
   textContentDiv.textContent = activeObject.text;
   textContentDiv.style.fontFamily = activeObject.fontFamily;
-  textContentDiv.style.fontSize = activeObject.fontSize + "px";
+  textContentDiv.style.fontSize = "20px";
   textContentDiv.style.color = activeObject.fill;
   textContentDiv.style.fontWeight = activeObject.fontWeight;
   textContentDiv.style.fontStyle = activeObject.fontStyle;
@@ -651,71 +690,123 @@ function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-const cartBtn = document.getElementById("cart-btn");
+// document
+//   .getElementById("cart-btn")
+//   .addEventListener("click", async function () {
+//     const selectedImageSrc = document.getElementById("shirt-image").src;
+//     var shirtColor = $(".color-div.active").attr("id");
 
-cartBtn.addEventListener("click", async function () {
-  cartBtn.style.opacity = "0.7";
-  const selectedImageSrc = document.getElementById("shirt-image").src;
-  var shirtColor = $(".color-div.active").attr("id");
+//     // Collect the selected sizes and quantities
+//     var selectedSizes = {};
+//     $(".size-div").each(function () {
+//       var size = $(this).find("p").text().trim();
+//       var quantity = parseInt($(this).find(".size").val());
 
-  // Collect the selected sizes and quantities
-  var selectedSizes = {};
-  $(".size-div").each(function () {
-    var size = $(this).find("p").text().trim();
-    var quantity = parseInt($(this).find(".size").val());
+//       // Only include sizes with a quantity greater than 0
+//       if (quantity > 0) {
+//         selectedSizes[size] = quantity;
+//       }
+//     });
 
-    // Only include sizes with a quantity greater than 0
-    if (quantity > 0) {
-      selectedSizes[size] = quantity;
+//     if (isObjectEmpty(selectedSizes)) {
+//       alert("Select Size!");
+//       return;
+//     } else {
+//       uploadImage()
+//       try {
+//         const response = await fetch(
+//           "http://localhost:4242/create-checkout-session",
+//           {
+//             method: "POST",
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//               imageSrc: selectedImageSrc,
+//               sizes: selectedSizes,
+//               color: shirtColor,
+//               croppedDataUrl: base64String,
+//             }),
+//           }
+//         );
+
+//         const session = await response.json();
+//         console.log(session);
+
+//         // Redirect to the Stripe Checkout page
+//         window.location.href = session.url;
+//       } catch (error) {
+//         console.error("Error creating checkout session:", error);
+//       }
+//     }
+//   });
+
+document
+  .getElementById("cart-btn")
+  .addEventListener("click", async function () {
+    const selectedImageSrc = document.getElementById("shirt-image").src;
+    var shirtColor = $(".color-div.active").attr("id");
+
+    // Collect the selected sizes and quantities
+    var selectedSizes = {};
+    $(".size-div").each(function () {
+      var size = $(this).find("p").text().trim();
+      var quantity = parseInt($(this).find(".size").val());
+
+      // Only include sizes with a quantity greater than 0
+      if (quantity > 0) {
+        selectedSizes[size] = quantity;
+      }
+    });
+
+    if (isObjectEmpty(selectedSizes)) {
+      alert("Select Size!");
+      return;
+    } else {
+      try {
+        // Upload image and wait for completion
+        await uploadImage();
+
+        const response = await fetch(
+          "http://localhost:4242/create-checkout-session",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              imageSrc: selectedImageSrc,
+              sizes: selectedSizes,
+              color: shirtColor,
+              // croppedDataUrl: base64String,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to create checkout session");
+        }
+
+        const session = await response.json();
+        console.log(session);
+
+        // Redirect to the Stripe Checkout page
+        window.location.href = session.url;
+      } catch (error) {
+        console.error("Error processing checkout:", error);
+        // Handle error, e.g., display an error message to the user
+      }
     }
   });
 
-  if (isObjectEmpty(selectedSizes)) {
-    alert("Select Size!");
-    return;
-  } else {
-    try {
-      // Upload image and wait for completion
-      await uploadImage();
-      cartBtn.style.opacity = "1";
-
-      const response = await fetch(
-        "https://shirtmaker.onrender.com/create-checkout-session",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            imageSrc: selectedImageSrc,
-            sizes: selectedSizes,
-            color: shirtColor,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to create checkout session");
-      }
-
-      const session = await response.json();
-      console.log(session);
-
-      // Redirect to the Stripe Checkout page
-      window.location.href = session.url;
-    } catch (error) {
-      cartBtn.style.opacity = "1";
-      console.error("Error processing checkout:", error);
-      // Handle error, e.g., display an error message to the user
-    }
-  }
-});
-
 async function uploadImage() {
   var croppedDataUrl = canvas.toDataURL("image/png");
+
+  document.querySelector("#upload-image").style.opacity = "0.7";
+
   try {
     // Send the cropped image data to backend and wait for completion
-    const response = await fetch("https://shirtmaker.onrender.com/upload", {
+    const response = await fetch("http://localhost:4242/upload", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -726,9 +817,118 @@ async function uploadImage() {
     if (!response.ok) {
       throw new Error("Failed to upload image");
     }
+
+    const data = await response.json();
+    console.log(data);
+    document.querySelector("#upload-image").style.opacity = "1";
   } catch (error) {
     console.error("Error uploading image:", error);
+    // Handle error, e.g., display an error message to the user
+    document.querySelector("#upload-image").style.opacity = "1";
   }
+}
+
+// document.querySelector("#download").addEventListener("click", async () => {
+//   const tshirtImageUrl = document.getElementById("shirt-image").src;
+
+//   // Load the T-shirt image asynchronously
+//   const tshirtImage = await loadImageAsync(tshirtImageUrl);
+
+//   // Create a new Fabric.js canvas for exporting
+//   const exportCanvas = new fabric.Canvas("exportCanvas", {
+//     renderOnAddRemove: true,
+//   });
+
+//   // Set the size of the export canvas based on the T-shirt image dimensions
+//   exportCanvas.setDimensions({
+//     width: 4500,
+//     height: 5100,
+//   });
+
+//   // Calculate the center position for the T-shirt image
+//   const centerX = exportCanvas.width / 2;
+//   const centerY = exportCanvas.height / 2;
+
+//   // Calculate the position for the T-shirt image based on its dimensions
+//   const imageLeft = centerX - tshirtImage.width / 2;
+//   const imageTop = centerY - tshirtImage.height / 2;
+
+//   // Add T-shirt image as a background
+//   const backgroundImage = new fabric.Image(tshirtImage, {
+//     left: imageLeft,
+//     top: imageTop,
+//     width: tshirtImage.width,
+//     height: tshirtImage.height,
+//   });
+
+//   exportCanvas.setBackgroundImage(
+//     backgroundImage,
+//     exportCanvas.renderAll.bind(exportCanvas)
+//   );
+
+//   // Add Fabric.js objects to the export canvas
+//   canvas.getObjects().forEach((obj) => {
+//     if (obj.type === "image") {
+//       const clonedImage = new fabric.Image(
+//         obj._originalElement,
+//         obj.toObject()
+//       );
+
+//       clonedImage.scaleX *= 1.7; // Adjust the scale factor according to your needs
+//       clonedImage.scaleY *= 1.7;
+
+//       // Adjust the position of the cloned image based on its current position on the canvas
+//       clonedImage.set({
+//         left: obj.left + 650,
+//         top: obj.top + 620,
+//       });
+
+//       exportCanvas.add(clonedImage);
+//     } else if (obj.type === "i-text") {
+//       const clonedText = new fabric.IText(obj.text, obj.toObject());
+//       // Adjust the position of the cloned text based on its current position on the canvas
+//       clonedText.set({
+//         left: obj.left + (tshirtImage.width - 319) / 2,
+//         top: obj.top + (tshirtImage.height - 365) / 2,
+//       });
+//       exportCanvas.add(clonedText);
+//     }
+//     // Add additional checks for other types of objects as needed
+//   });
+
+//   // Ensure that the canvas is fully rendered
+//   exportCanvas.renderAll();
+
+//   var croppedDataUrl = canvas.toDataURL("image/png");
+
+//   // Display or use the cropped image
+//   var croppedImage = new Image();
+//   croppedImage.src = croppedDataUrl;
+//   // document.body.appendChild(croppedImage);
+
+//   // Get the combined image data URL
+//   const dataURL = exportCanvas.toDataURL("image/png");
+
+//   // Create a download link and trigger the download
+//   const a = document.createElement("a");
+//   const a2 = document.createElement("a");
+//   a.download = "combined_image.png";
+//   a2.download = "combined_image2.png";
+//   a.href = croppedDataUrl;
+//   a2.href = dataURL;
+//   a.click();
+//   // a2.click();
+// });
+
+// // Function to load an image asynchronously
+function loadImageAsync(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Enable cross-origin access, important for some image URLs
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = url;
+  });
 }
 
 // Handle button clicks
@@ -747,3 +947,67 @@ $(".change-size").on("click", function () {
 
   sizeInput.val(newSize);
 });
+
+// document.querySelector("#upload-image").addEventListener("click", () => {
+// function uploadImage() {
+//   var croppedDataUrl = canvas.toDataURL("image/png");
+
+//   document.querySelector("#upload-image").style.opacity = "0.7";
+
+//   // Send the cropped image data to backend
+//   fetch("http://localhost:4242/upload", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ image: croppedDataUrl }),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data);
+//       document.querySelector("#upload-image").style.opacity = "1";
+//     })
+
+//     .catch((error) => {
+//       console.error("Error:", error);
+//       document.querySelector("#upload-image").style.opacity = "1";
+//     });
+// }
+
+// });
+
+// function getDimensions() {
+//   // Get the input element
+//   const input = document.getElementById("imageInput");
+
+//   // Check if any file is selected
+//   if (input.files && input.files[0]) {
+//     const reader = new FileReader();
+
+//     // Read the image file
+//     reader.onload = function (e) {
+//       // Create an image element
+//       const img = new Image();
+
+//       // Set the source of the image to the selected file
+//       img.src = e.target.result;
+
+//       // Wait for the image to load
+//       img.onload = function () {
+//         // Get the dimensions of the image
+//         const width = img.width;
+//         const height = img.height;
+
+//         const variableToUse = width > height ? height : width;
+//         const dpi = variableToUse / 15;
+//         console.log(dpi);
+
+//         // Display the dimensions
+//         alert(`Image Dimensions: ${width} x ${height} pixels`);
+//       };
+//     };
+
+//     // Read the selected file as a data URL
+//     reader.readAsDataURL(input.files[0]);
+//   }
+// }

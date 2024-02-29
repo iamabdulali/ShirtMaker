@@ -44,16 +44,6 @@
 
         <span id="textbox" style="display: none;"></span>
 
-        <div class="text-container"></div>
-
-        <div class="file-container">
-            <div class="image-container">
-                <div id="image-preview-container" class="image-preview-container">
-
-                </div>
-                <div id="fileName" class="non-clickable"></div>
-            </div>
-        </div>
 
         <label for="fileInput" class="custom-file-input-label">
             <div class="shirt-size-menu">
@@ -231,29 +221,40 @@
                 <i id="alignCenterBtn" style="display: none;" class="fa-solid fa-align-center" title="Center Align"></i>
                 <i id="alignRightBtn" style="display: none;" class="fa-solid fa-align-right" title="Right Align"></i>
             </div>
-            <div class="labels-div">
-                <label for="fontSizeInput" id="fontsize-label" style="display: none;">
-                    Font Size:
-                    <input id="fontSizeInput" type="number" style="display: none;" min="1" value="250">
-                </label>
-                <label for="colorPicker" id="color-label" style="display: none;">
-                    Text Color:
-                    <input id="colorPicker" type="color" style="display: none;" value="#000000">
-                </label>
-                <label for="fontFamily" style="display: none;" id="fontFamilylabel">
-                    Choose Font:
-                </label>
-                <select id="fontFamilySelect" style="display: none;">
-                    <option value="default">Choose Font</option>
-                    <option value="Arial">Arial</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                    <!-- Add more font options as needed -->
-                </select>
-            </div>
+
 
             <input accept="image/*" type="file" name="image" id="input" style="display: none;" />
         </label>
+        <div class="text-container"></div>
+        <div class="labels-div">
+            <label for="fontSizeInput" id="fontsize-label" style="display: none;">
+                Font Size:
+                <input id="fontSizeInput" type="number" style="display: none;" min="1" value="250">
+            </label>
+            <label for="colorPicker" id="color-label" style="display: none;">
+                Text Color:
+                <input id="colorPicker" type="color" style="display: none;" value="#000000">
+            </label>
+            <label for="fontFamily" style="display: none;" id="fontFamilylabel">
+                Choose Font:
+            </label>
+            <select id="fontFamilySelect" style="display: none;">
+                <option value="default">Choose Font</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <!-- Add more font options as needed -->
+            </select>
+        </div>
+        <div class="file-container">
+            <div class="image-container">
+                <div id="image-preview-container" class="image-preview-container">
+
+                </div>
+                <div id="fileName" class="non-clickable"></div>
+            </div>
+        </div>
+
     </div>
     <div id="sidebar-canvas-two" class="sidebar" style="display: none;">
         <label for="textbox" style="display: none;" id="text-preview2">Text Preview: </label>
