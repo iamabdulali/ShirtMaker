@@ -575,6 +575,11 @@ img {
     height: 223px !important;
   }
 
+  .sidebar {
+    display: block;
+    margin-top: 0;
+  }
+
   .button-div {
     top: 1em;
   }
@@ -583,6 +588,18 @@ img {
     left: 94px;
     top: 155px;
   }
+
+  .text-container:has(div) {
+    margin-top: 2em;
+  }
+
+  /* .text-btn-div {
+    margin-top: 0em;
+  }
+
+  .text-btn-div:has(i) {
+    margin-top: 2em;
+  } */
 }
 
 @media (max-width: 400px) {
