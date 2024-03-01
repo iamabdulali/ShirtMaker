@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Editor De Camisa</title>
 </head>
 
@@ -14,7 +17,6 @@
     <div class="button-div">
         <button id="holaBtn">Front</button>
         <button id="adiosBtn">Back</button>
-        <i class="fa-solid fa-bars"></i>
     </div>
     <div class="canvas-div">
         <img id="shirt-image" src="./Shirt/Front/AAA-Front.jpeg" alt="White">
@@ -205,9 +207,9 @@
                         <span>&#10004;</span>
                     </div>
                 </div>
+                <button class="btn mt" id="shirtColor"> Shirt Color</button>
                 <div class="shirt-modification-div">
-                    <button class="btn mt" id="shirtColor">Select Shirt Color</button>
-                    <button class="btn mt" id="shirtSize">Select Shirt Size</button>
+                    <button class="btn mt" id="shirtSize">Select Shirt Size and Add To Cart</button>
                     <button class="btn mt" id="edit-btn" style="display: none;">Return To Edit</button>
                     <button class="btn mt" id="cart-btn" style="display: none;">Add to Cart</button>
                 </div>

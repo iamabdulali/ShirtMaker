@@ -424,6 +424,11 @@ img {
   background-color: white;
 }
 
+#shirtSize {
+  background-color: #9652a8;
+  color: #fff;
+}
+
 @media (max-width: 1250px) {
   .canvas-div,
   .canvas-div-2 {
@@ -563,10 +568,15 @@ img {
 @media (max-width: 500px) {
   .canvas-div {
     width: 380px;
+    height: 463px;
   }
   canvas {
     width: 196px !important;
     height: 223px !important;
+  }
+
+  .button-div {
+    top: 1em;
   }
 
   .canvas-container {
