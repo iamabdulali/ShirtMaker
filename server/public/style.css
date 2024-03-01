@@ -429,6 +429,10 @@ img {
   color: #fff;
 }
 
+#upload-image {
+  display: none;
+}
+
 @media (max-width: 1250px) {
   .canvas-div,
   .canvas-div-2 {

@@ -747,6 +747,8 @@ document
     const selectedImageSrc = document.getElementById("shirt-image").src;
     var shirtColor = $(".color-div.active").attr("id");
 
+    console.log("HELO");
+
     // Collect the selected sizes and quantities
     var selectedSizes = {};
     $(".size-div").each(function () {
@@ -802,7 +804,8 @@ document
 async function uploadImage() {
   var croppedDataUrl = canvas.toDataURL("image/png");
 
-  document.querySelector("#upload-image").style.opacity = "0.7";
+  // document.querySelector("#upload-image").style.opacity = "0.7";
+  document.querySelector("#cart-btn").style.opacity = "0.7";
 
   try {
     // Send the cropped image data to backend and wait for completion
@@ -820,11 +823,13 @@ async function uploadImage() {
 
     const data = await response.json();
     console.log(data);
-    document.querySelector("#upload-image").style.opacity = "1";
+    // document.querySelector("#upload-image").style.opacity = "1";
+    document.querySelector("#cart-btn").style.opacity = "1";
   } catch (error) {
     console.error("Error uploading image:", error);
     // Handle error, e.g., display an error message to the user
-    document.querySelector("#upload-image").style.opacity = "1";
+    // document.querySelector("#upload-image").style.opacity = "1";
+    document.querySelector("#cart-btn").style.opacity = "1";
   }
 }
 
