@@ -57,9 +57,7 @@ button {
 button:hover {
   background-color: #e0e0e0;
 }
-#holaBtn {
-  background-color: #9fa3a9;
-}
+
 .front-back-btn {
   border: 2px solid #000;
 }
