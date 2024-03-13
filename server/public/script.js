@@ -6,13 +6,13 @@ fabric.Object.prototype.set({
   selectable: true,
 });
 const canvas = new fabric.Canvas("canvas", {
-  preserveObjectStacking: true,
+  preserveObjectStacking: false,
 });
 const canvas2 = new fabric.Canvas("canvas2", {
-  preserveObjectStacking: true,
+  preserveObjectStacking: false,
 });
 const exportCanvas = new fabric.Canvas("exportCanvas", {
-  preserveObjectStacking: true,
+  preserveObjectStacking: false,
 });
 
 let selectedObject = null;
@@ -106,7 +106,7 @@ function cambiarColorRojo(btnId) {
   const boton = document.getElementById(btnId);
 
   // Cambiar el color a rojo
-  boton.style.backgroundColor = "red";
+  boton.style.backgroundColor = "#9fa3a9";
 }
 
 window.onload = function () {
@@ -417,6 +417,9 @@ function toggleTextButtonsVisibility(isVisible) {
 
 function canvasEvents(canvas) {
   canvas.on("selection:created", function (event) {
+    document.querySelectorAll("canvas").forEach((canvas) => {
+      canvas.style.border = "none";
+    });
     const selectedObject = event.selected[0];
     if (selectedObject && selectedObject.type === "i-text") {
       toggleTextButtonsVisibility(true);
@@ -424,6 +427,9 @@ function canvasEvents(canvas) {
   });
   canvas.on("selection:cleared", function () {
     toggleTextButtonsVisibility(false);
+    document.querySelectorAll("canvas").forEach((canvas) => {
+      canvas.style.border = "2px dashed black";
+    });
   });
 }
 
@@ -523,6 +529,7 @@ function createTextPreview(activeObject, container) {
   textPreviewContainer.appendChild(buttonsDiv);
 
   document.querySelector(container).append(textPreviewContainer);
+  console.log("DSdsd");
 }
 
 function updateTextPreview(fabricID, canvas) {
@@ -668,7 +675,8 @@ $(".color-div").click(function (params) {
   $("#shirt-image-back").attr("src", `./Shirt/Back/${id}.jpeg`);
   $(".color-div").removeClass("active");
   $(this).addClass("active");
-  console.log(id);
+  $("#edit-btn").click();
+
   if (id == "White") {
     $("canvas").css("border-color", "black");
   } else {
@@ -952,6 +960,45 @@ $(".change-size").on("click", function () {
 
   sizeInput.val(newSize);
 });
+
+// Function to select all text objects and bring them to front
+function selectAllTextObjects() {
+  canvas.forEachObject(function (obj) {
+    // Check if object is a text object
+    if (obj.type === "text") {
+      // Do something with the text object, e.g., select it
+      obj.set("active", true);
+    }
+  });
+
+  // Bring the selected text objects to the front
+  canvas.bringToFront();
+}
+
+// Call selectAllTextObjects function whenever a selection is created on the canvas
+canvas.on("selection:created", selectAllTextObjects);
+
+// Get a reference to your canvas
+
+// // Load saved canvas data from local storage
+// function loadCanvasFromLocalStorage() {
+//   var savedCanvasData = localStorage.getItem("savedCanvas");
+//   if (savedCanvasData) {
+//     canvas.loadFromJSON(savedCanvasData, canvas.renderAll.bind(canvas));
+//   }
+// }
+
+// // Save canvas data to local storage
+// function saveCanvasToLocalStorage() {
+//   var canvasData = JSON.stringify(canvas.toJSON());
+//   localStorage.setItem("savedCanvas", canvasData);
+// }
+
+// // Call load function when page loads
+// window.onload = loadCanvasFromLocalStorage;
+
+// // Call save function when page is about to unload
+// window.onbeforeunload = saveCanvasToLocalStorage;
 
 // document.querySelector("#upload-image").addEventListener("click", () => {
 // function uploadImage() {
