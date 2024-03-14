@@ -214,8 +214,12 @@
                 <button class="btn mt" id="shirtColor"> Shirt Color</button>
                 <div class="shirt-modification-div">
                     <button class="btn mt" id="shirtSize">Select Shirt Size and Add To Cart</button>
-                    <button class="btn mt" id="edit-btn" style="display: none;">Return To Edit</button>
-                    <button class="btn mt" id="cart-btn" style="display: none;">Add to Cart</button>
+                    <div class="size-guide-div" style="display: none;">
+                        <button class="btn mt" id="edit-btn" style="display: none;">Return To Edit</button>
+                        <button class="btn mt" id="cart-btn" style="display: none;">Add to Cart</button>
+                        <button class="btn mt" id="size-guide-btn" style="display: none;">Open Size Guide</button>
+
+                    </div>
                 </div>
                 <!-- <button id="download">Download</button> -->
                 <button id="upload-image">Upload Image</button>
@@ -252,6 +256,7 @@
                 <!-- Add more font options as needed -->
             </select>
         </div>
+
         <div class="file-container">
             <div class="image-container">
                 <div id="image-preview-container" class="image-preview-container">
@@ -318,6 +323,86 @@
             <input accept="image/*" type="file" name="image" id="input2" style="display: none;" />
 
         </label>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="size-guide">
+        <span class="close-menu">×</span>
+        <div class="inch-div">
+            <button class="measure-btn" id="inch">Inch</button>
+            <button class="measure-btn" id="centimeter">Centimeters</button>
+        </div>
+        <div class="size">
+            <table id="tablaDatos">
+                <thead id="encabezado1" style="display: table-header-group;">
+                    <tr>
+                        <th>Size</th>
+                        <th>
+                            <div class="circle">A</div>Width, in
+                        </th>
+                        <th>
+                            <div class="circle">B</div>Length, in
+                        </th>
+                        <th>
+                            <div class="circle">C</div>Sleeve, in
+                        </th>
+                    </tr>
+                </thead>
+                <thead id="encabezado2" style="display: none;">
+                    <tr>
+                        <th>Size</th>
+                        <th>
+                            <div class="circle">A</div>Width, cm
+                        </th>
+                        <th>
+                            <div class="circle">B</div>Length, cm
+                        </th>
+                        <th>
+                            <div class="circle">C</div>Sleeve, cm
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                    <tr>
+                        <td><strong>S</strong></td>
+                        <td>18</td>
+                        <td>28</td>
+                        <td>8.2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>M</strong></td>
+                        <td>20</td>
+                        <td>29</td>
+                        <td>8.5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L</strong></td>
+                        <td>22</td>
+                        <td>30</td>
+                        <td>8.7</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XL</strong></td>
+                        <td>24</td>
+                        <td>31</td>
+                        <td>9.1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XXL</strong></td>
+                        <td>26</td>
+                        <td>32</td>
+                        <td>9.2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3XL</strong></td>
+                        <td>28</td>
+                        <td>33</td>
+                        <td>9.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <img class="shirt-reference-img" src="/server/public/shirt-image.jpg" alt="">
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

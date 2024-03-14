@@ -443,6 +443,73 @@ img {
   display: none;
 }
 
+.size-guide {
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  z-index: 99999999999999;
+  background: white;
+  padding: 1em;
+  min-width: 340px;
+  max-width: 340px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.shirt-reference-img {
+  margin-top: 1.5em;
+}
+
+th,
+td {
+  border: 1px solid #4b0082;
+  padding: 10px;
+  text-align: center;
+}
+
+tr:nth-child(even) td {
+  background-color: #e0e0e0;
+}
+
+.size-guide-div {
+  width: 100%;
+}
+
+.inch-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.inch-div button {
+  border: 2px solid #000;
+}
+
+.selected-guide {
+  background-color: rgb(159, 163, 169);
+}
+
+.close-menu {
+  font-size: 2rem;
+  position: absolute;
+  right: 17px;
+  top: 0em;
+  cursor: pointer;
+}
+
+.overlay {
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  z-index: 99999999999;
+  position: fixed;
+  display: none;
+}
+
 @media (max-width: 1250px) {
   .canvas-div,
   .canvas-div-2 {
@@ -543,10 +610,6 @@ img {
     display: none !important;
   }
 
-  .labels-div {
-    padding: 1em;
-  }
-
   .canvas-container {
     left: 154px;
     top: 155px;
@@ -585,6 +648,14 @@ img {
     max-height: 100%;
     overflow-y: hidden;
   }
+
+  .text-container {
+    margin-bottom: 0 !important;
+  }
+
+  .text-container:has(div) {
+    margin-top: 2em;
+  }
 }
 
 @media (max-width: 500px) {
@@ -609,10 +680,6 @@ img {
   .canvas-container {
     left: 94px;
     top: 155px;
-  }
-
-  .text-container:has(div) {
-    margin-top: 2em;
   }
 
   /* .text-btn-div {
