@@ -539,6 +539,14 @@ img {
     height: 223px !important;
   }
 
+  #fontsize-label {
+    display: none !important;
+  }
+
+  .labels-div {
+    padding: 1em;
+  }
+
   .canvas-container {
     left: 154px;
     top: 155px;
