@@ -1,9 +1,11 @@
 fabric.Object.prototype.set({
-  cornerBackground: "red",
+  cornerColor: "red",
   cornerSize: 200,
   cornerStrokeWidth: 200, // Width of the stroke around the controls
   transparentCorners: false,
   selectable: true,
+  borderColor: "red",
+  borderScaleFactor: 20,
 });
 const canvas = new fabric.Canvas("canvas", {
   preserveObjectStacking: false,
@@ -31,6 +33,7 @@ if (window.innerWidth <= 500) {
     cornerStrokeWidth: 10, // Width of the stroke around the controls
     transparentCorners: false,
     selectable: true,
+    borderScaleFactor: 5,
   });
   SIZE = 600;
 } else {
@@ -671,8 +674,8 @@ $("#shirtColor").click(function (params) {
 
 $(".color-div").click(function (params) {
   let id = $(this).attr("id");
-  $("#shirt-image").attr("src", `./Shirt/Front/${id}.jpeg`);
-  $("#shirt-image-back").attr("src", `./Shirt/Back/${id}.jpeg`);
+  $("#shirt-image").attr("src", `./shirtbg/front/${id}.png`);
+  $("#shirt-image-back").attr("src", `./shirtbg/back/${id}.png`);
   $(".color-div").removeClass("active");
   $(this).addClass("active");
   $("#edit-btn").click();

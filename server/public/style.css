@@ -256,6 +256,7 @@ img {
   position: relative;
   height: 100vh;
   scale: 1.1;
+  background-color: #f3f3f3;
 }
 
 .canvas-div img,
@@ -429,6 +430,11 @@ img {
 }
 
 #shirtSize {
+  background-color: #9652a8;
+  color: #fff;
+}
+
+#cart-btn {
   background-color: #9652a8;
   color: #fff;
 }
