@@ -421,7 +421,7 @@ function toggleTextButtonsVisibility(isVisible) {
 function canvasEvents(canvas) {
   canvas.on("selection:created", function (event) {
     document.querySelectorAll("canvas").forEach((canvas) => {
-      canvas.style.border = "none";
+      canvas.style.border = "2px dashed black";
     });
     const selectedObject = event.selected[0];
     if (selectedObject && selectedObject.type === "i-text") {
@@ -431,7 +431,7 @@ function canvasEvents(canvas) {
   canvas.on("selection:cleared", function () {
     toggleTextButtonsVisibility(false);
     document.querySelectorAll("canvas").forEach((canvas) => {
-      canvas.style.border = "2px dashed black";
+      canvas.style.border = "none";
     });
   });
 }
@@ -763,6 +763,7 @@ $(".menu-form").submit(function (e) {
 $("#shirtColor").click(function (params) {
   $(".select-shirt-color-div").css("display", "flex");
   $("#edit-btn").show();
+  $(".size-guide-div").show();
   // $("#cart-btn").show();
   $("#shirtColor").hide();
   $("#shirtSize").hide();

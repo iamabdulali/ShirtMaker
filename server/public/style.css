@@ -48,7 +48,7 @@ button {
   /* margin: 5px; */
   padding: 10px 20px;
   user-select: none;
-  border: 1px solid #ccc;
+  border: 2px solid #000;
   border-radius: 5px;
   background-color: #f0f0f0;
   cursor: pointer;
@@ -541,7 +541,7 @@ tr:nth-child(even) td {
   body {
     overflow-x: hidden;
     /* overflow-y: auto !important; */
-    background-color: white;
+    background-color: #f3f3f3;
     /* height: 200vh; */
   }
 
@@ -571,7 +571,7 @@ tr:nth-child(even) td {
     top: 3em;
     bottom: 0;
     height: auto;
-    background: transparent;
+    /* background: transparent; */
     min-height: auto;
   }
 
