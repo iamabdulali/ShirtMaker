@@ -774,8 +774,8 @@ $("#shirtColor").click(function (params) {
 
 $(".color-div").click(function (params) {
   let id = $(this).attr("id");
-  $("#shirt-image").attr("src", `./shirtbg/front/${id}.png`);
-  $("#shirt-image-back").attr("src", `./shirtbg/back/${id}.png`);
+  $("#shirt-image").attr("src", `./Shirt/Front/${id}.jpeg`);
+  $("#shirt-image-back").attr("src", `./Shirt/Back/${id}.jpeg`);
   $(".color-div").removeClass("active");
   $(this).addClass("active");
   $("#edit-btn").click();

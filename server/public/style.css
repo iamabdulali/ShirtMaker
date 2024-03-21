@@ -15,7 +15,7 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #f1f1f1;
+  background-color: #fff;
   overflow: hidden !important;
 }
 
@@ -62,7 +62,6 @@ button:hover {
   border: 2px solid #000;
 }
 canvas {
-  border: 2px dashed black;
   width: 290px !important;
   height: 332px !important;
   cursor: default;
@@ -541,7 +540,7 @@ tr:nth-child(even) td {
   body {
     overflow-x: hidden;
     /* overflow-y: auto !important; */
-    background-color: #f3f3f3;
+    background-color: #ffff;
     /* height: 200vh; */
   }
 
